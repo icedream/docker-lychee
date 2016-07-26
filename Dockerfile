@@ -8,7 +8,7 @@ MAINTAINER Kevin Delfour <kevin@delfour.eu>
 # ------------------------------------------------------------------------------
 # Install base
 RUN apt-get update
-RUN apt-get install -yq wget git unzip nginx fontconfig-config fonts-dejavu-core \
+RUN apt-get install -yq wget tar gzip unzip nginx fontconfig-config fonts-dejavu-core \
     php5-fpm php5-common php5-json php5-cli php5-common php5-mysql\
     php5-gd php5-imagick php5-json php5-mcrypt php5-readline psmisc ssl-cert \
     ufw php-pear libgd-tools libmcrypt-dev mcrypt
@@ -38,10 +38,12 @@ ADD conf/lychee /etc/nginx/sites-enabled/
 # ------------------------------------------------------------------------------
 # Install Lychee
 WORKDIR /var/www
-RUN git clone https://github.com/electerious/Lychee.git lychee
+ARG LYCHEE_VERSION=v3.1.2
+RUN mkdir -p lychee &&\
+	wget -O- "https://github.com/electerious/Lychee/archive/${LYCHEE_VERSION}.tar.gz" | tar xz -C lychee --strip-components=1
 RUN chown -R www-data:www-data /var/www/lychee
 RUN chmod -R 770 /var/www/lychee
-RUN chmod -R 777 /var/www/lychee/uploads/ 
+RUN chmod -R 777 /var/www/lychee/uploads/
 RUN chmod -R 777 /var/www/lychee/data/
 
 # ------------------------------------------------------------------------------
