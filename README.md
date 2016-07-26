@@ -16,18 +16,13 @@ Download automated build from public Docker Hub Registry: docker pull kdelfour/l
 
 ## Usage
 
-    docker run -it -d -p 80:80 kdelfour/lychee-docker
-    
-You can add a shared directory as a volume directory with the argument *-v /your-path/uploads/:/uploads/ -v /your-path/data/:/data/ -v /your-path/mysql/:/mysql/* like this :
+You can run this image with the following command, replace the volume host paths with whatever paths you store the Lychee data files in and replace the mysql link with the appropriate link to allow the container to connect to a MySQL server.
 
-    docker run -it -d -p 80:80 -v /your-path/uploads/:/uploads/ -v /your-path/data/:/data/ -v /your-path/mysql/:/mysql/ kdelfour/lychee-docker
-
-A mysql server with a database is ready, you can use it with this parameters : 
-
-  - url : localhost
-  - database name : lychee
-  - user name : lychee
-  - user password : lychee
+    docker run -it -d -p 80:80 \
+    	-v /your-path/uploads/:/uploads/ \
+    	-v /your-path/data/:/data/ \
+    	--link mysql \
+    	kdelfour/lychee-docker
     
 ## Build and run with custom config directory
 
